@@ -1,4 +1,4 @@
-# User Service 
+# Golang DDD / gRPC / Hexagonal Architecture Example
 
 This repository holds an example of how you may structure a Golang microservice. The structure of this service follows principles 
 from Hexagonal Architecture (ports/adapters) and Domain Driven Design. It exposes a gRPC transport layer (adapter) for internal communication 
