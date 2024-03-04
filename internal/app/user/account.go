@@ -25,8 +25,6 @@ func NewAccount(email Email, password Password) *Account {
 func (a *Account) Create() {
 	a.ID = uuid.NewString()
 	a.CreatedAt = time.Now().UTC()
-
-	// Hash the password on account creation
 }
 
 func (a *Account) Login() {

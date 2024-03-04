@@ -2,24 +2,23 @@ package handler
 
 import (
 	"context"
+	"errors"
 
-	"github.com/samverrall/user-service/internal/app/user"
+	"github.com/samverrall/microservice-example/internal/app"
+	"github.com/samverrall/microservice-example/internal/app/user"
+	"github.com/samverrall/microservice-example/internal/repository"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type Service struct {
 	User *user.Service
 }
 
-// Repo holds any repositories that the gRPC handlers may utilise.
-// Ideally only Reader repositories from the core application should be used here.
-// This is because simple "get" gRPC methods do not require business logic and therefore
-// can retrieve entities directly from the repository. Any write operations however
-// should go through the core application layer.
 type Repo struct {
 	User user.Reader
 }
 
-// Handler acts as a base for any fields a gRPC handler may require.
 type Handler struct {
 	Svc  *Service
 	Repo *Repo
@@ -33,5 +32,20 @@ func NewHandler(svc *Service, repo *Repo) *Handler {
 }
 
 func (h *Handler) Error(ctx context.Context, err error) error {
-	return nil
+	switch {
+	case err == nil:
+		return nil
+
+	case errors.Is(err, repository.ErrNotFound):
+		return status.Error(codes.NotFound, "The requested resource was not found.")
+
+	case errors.Is(err, app.ErrInvalidInput):
+		return status.Error(codes.InvalidArgument, err.Error())
+
+	case errors.Is(err, app.ErrForbidden):
+		return status.Error(codes.PermissionDenied, "You do not have permission to perform this action.")
+
+	default:
+		return status.Error(codes.Internal, "An internal error occurred.")
+	}
 }

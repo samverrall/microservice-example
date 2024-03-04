@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/samverrall/user-service/internal/app"
+	"github.com/samverrall/microservice-example/internal/app"
 )
 
 func (s *Service) CreateAccount(ctx context.Context, email, password string) (*Account, error) {

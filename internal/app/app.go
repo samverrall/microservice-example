@@ -12,5 +12,4 @@ var (
 
 func NewInvalidInputErr(err error) error {
 	return fmt.Errorf("%w: %w", ErrInvalidInput, err)
-
 }

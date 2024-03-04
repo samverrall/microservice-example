@@ -9,22 +9,22 @@ run:
 	./run.sh
 
 .PHONY: build
-build: lint 
-	go build -o $(OUTPUT) github.com/samverrall/user-service/cmd 
+build: lint
+	go build -o $(OUTPUT) github.com/samverrall/microservice-example/cmd
 
 .PHONY: test
-test: 
+test:
 	go test -v --race ./...
 
-.PHONY: govulncheck 
+.PHONY: govulncheck
 govulncheck:
 	govulncheck ./...
 
 .PHONY: gogen
-gogen: 
+gogen:
 	go generate ./...
 
-.PHONY: proto-health 
+.PHONY: proto-health
 proto-health:
 	protoc \
 	--go_out=. \

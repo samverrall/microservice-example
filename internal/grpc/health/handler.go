@@ -1,13 +1,25 @@
 package health
 
-import "github.com/samverrall/user-service/internal/grpc/handler"
+import (
+	"context"
+
+	"github.com/samverrall/microservice-example/pkg/proto"
+)
 
 type Handler struct {
-	*handler.Handler
+	proto.UnimplementedHealthServer
 }
 
-func NewHandler(h *handler.Handler) *Handler {
-	return &Handler{
-		Handler: h,
-	}
+func NewHandler() *Handler {
+	return &Handler{}
+}
+
+func (h *Handler) Check(ctx context.Context, req *proto.HealthCheckRequest) (*proto.HealthCheckResponse, error) {
+	return &proto.HealthCheckResponse{
+		Status: proto.HealthCheckResponse_SERVING,
+	}, nil
+}
+
+func (s *Handler) Watch(req *proto.HealthCheckRequest, stream proto.Health_WatchServer) error {
+	return nil
 }

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option go_package = "github.com/samverrall/microservice-example/pkg/proto";
+
+
+message SignUpRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message SignupResponse {
+  string user_id = 1;
+}
+
+service User {
+  rpc Signup(SignUpRequest) returns (SignupResponse);
+}
